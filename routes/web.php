@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 use App\Http\Controllers\Api\PostController;
+use App\Http\Controllers\BlogController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,7 +18,10 @@ use App\Http\Controllers\Api\PostController;
 |
 */
 
-Route::get('/', function () {
+Route::get('/', [BlogController::class, 'home'])->name('blog.home');
+Route::get('/post/{post:slug}', [BlogController::class, 'post'])->name('blog.post');
+
+Route::get('/auth', function () {
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
