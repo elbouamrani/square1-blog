@@ -27,7 +27,7 @@ class PostFactory extends Factory
         return [
             'title'            => $this->faker->sentence(), 
             'description'      => $this->faker->paragraph(), 
-            'publication_date' => $this->faker->dateTime,
+            'publication_date' => $this->faker->datetime(),
         ];
     }
 }

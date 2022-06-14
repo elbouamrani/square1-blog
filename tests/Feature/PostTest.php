@@ -78,6 +78,25 @@ class PostTest extends TestCase
         $response->assertRedirect(route('posts.index'));
     }
 
+    public function test_post_create_validation()
+    {
+        $user = User::factory()->create();
+
+        $post = Post::factory()->make([
+            'title'             => null,
+            'description'       => null,
+            'publication_date'  => null,
+        ]);
+
+        $this->actingAs($user);
+
+        $response = $this->post(route('posts.store'), $post->toArray());
+
+        $response->assertSessionHasErrors([
+            'title', 'description', 'publication_date',
+        ]);
+    }
+
     public function test_when_user_create_a_post_is_stored()
     {
         $user = User::factory()->create();
