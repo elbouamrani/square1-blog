@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Models\Post;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Tests\TestCase;
@@ -14,6 +15,9 @@ class FeedImportCommandTest extends TestCase
 
     public function test_feed_import_command()
     {
+        Config::set('feed.endpoint', 'https://feed.com/posts');
+        Config::set('feed.user_id', 1);
+
         $this->withoutExceptionHandling();
 
         $endpoint = config('feed.endpoint');
