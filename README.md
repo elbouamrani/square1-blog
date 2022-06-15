@@ -66,18 +66,22 @@
 
     `docker exec app npm run prod`
 
-8) [Optional] Run scheduler
+8) Configure mailtrap to receive verification emails
+   
+   [mailtrap](https://mailtrap.io/)
+
+9)  [Optional] Run scheduler
    
     `docker exec app php artisan schedule:work`
 
-9) [Optional] Run demo seeder
+10) [Optional] Run demo seeder
 
     `docker exec app php artisan db:seed DemoSeeder`
 
-10) [Optional] Run mix watcher
+11) [Optional] Run mix watcher
 
     `docker exec app npm run watch`
 
-11) [Optional] Run test
+12) [Optional] Run test
 
     `docker exec app php artisan test`
