@@ -18,8 +18,10 @@ use App\Http\Controllers\BlogController;
 |
 */
 
-Route::get('/', [BlogController::class, 'home'])->name('blog.home');
-Route::get('/post/{post:slug}', [BlogController::class, 'post'])->name('blog.post');
+Route::name('blog.')->middleware(['cache.response'])->group(function() {
+    Route::get('/', [BlogController::class, 'home'])->name('home');
+    Route::get('/post/{post:slug}', [BlogController::class, 'post'])->name('post');
+});    
 
 Route::get('/auth', function () {
     return Inertia::render('Welcome', [

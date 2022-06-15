@@ -4,6 +4,7 @@ namespace App\Observers;
 
 use App\Models\Post;
 use App\Services\PostService;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 
 class PostObserver
@@ -18,5 +19,10 @@ class PostObserver
     public function creating(Post $post)
     {
         $post->slug = $this->postService->generateUniqueSlug($post->title);
+    }
+
+    public function created(Post $post)
+    {
+        Cache::flush();
     }
 }
