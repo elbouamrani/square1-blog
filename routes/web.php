@@ -1,10 +1,9 @@
 <?php
 
-use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
 
-use App\Http\Controllers\Api\PostController;
+use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\PostController;
 use App\Http\Controllers\BlogController;
 
 /*
@@ -21,26 +20,15 @@ use App\Http\Controllers\BlogController;
 Route::name('blog.')->middleware(['cache.response'])->group(function() {
     Route::get('/', [BlogController::class, 'home'])->name('home');
     Route::get('/post/{post:slug}', [BlogController::class, 'post'])->name('post');
-});    
-
-Route::get('/auth', function () {
-    return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
 });
 
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::middleware(['auth', 'verified'])->group(function() {
+    
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-
-Route::prefix('posts')->name('posts.')->middleware(['auth'])->group(function() {
-    Route::get('/', [PostController::class, 'index'])->name('index');
-    Route::get('/create', [PostController::class, 'create'])->name('create');
-    Route::post('/create', [PostController::class, 'store'])->name('store');
+    Route::prefix('posts')->name('posts.')->group(function() {
+        Route::get('/', [PostController::class, 'index'])->name('index');
+        Route::get('/create', [PostController::class, 'create'])->name('create');
+        Route::post('/create', [PostController::class, 'store'])->name('store');
+    });
 });
-
-require __DIR__.'/auth.php';
